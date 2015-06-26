@@ -28,7 +28,26 @@ declare %unit:test function _:test-java-dummy-xml() {
   )
 };
 
-declare %unit:test function _:test-javascript-dummy-integer() {
+declare %unit:test function _:test-javascript-dummy-integer-scripting() {
   unit:assert(
-    jb:eval($_:EVALUATOR, "1", "com.dedalus.dss.javabinding.evaluators.DummyScriptingEvaluator", 1) = 1)
+    jb:eval($_:EVALUATOR, "1", "com.dedalus.dss.javabinding.evaluators.DummyScriptingEvaluator", 1) = 1
+  )
+};
+
+declare %unit:test function _:test-javascript-dummy-string-scripting(){
+  unit:assert(
+    jb:eval($_:EVALUATOR, "2", "com.dedalus.dss.javabinding.evaluators.DummyScriptingEvaluator", "1") = "1"    
+  )
+};
+
+declare %unit:test function _:test-javascript-dummy-boolean-scripting(){
+  unit:assert(
+    jb:eval($_:EVALUATOR, "3", "com.dedalus.dss.javabinding.evaluators.DummyScriptingEvaluator", true()) = true()
+  )
+};
+
+declare %unit:test function _:test-javascript-dummy-xml-scripting(){
+  unit:assert(
+    jb:eval($_:EVALUATOR, "4", "com.dedalus.dss.javabinding.evaluators.DummyScriptingEvaluator", <a/>) = <a/>
+  )
 };
