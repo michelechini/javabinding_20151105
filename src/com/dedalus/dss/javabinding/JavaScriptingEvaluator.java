@@ -19,11 +19,11 @@ public abstract class JavaScriptingEvaluator implements JavaEvaluatorInterface {
 	
 	protected abstract String extractLanguage(Object data);
 	
-	protected abstract Bindings extractParameters(Object data);
+	protected abstract void setParameters(Bindings bindings, Object data);
 	
 	protected abstract String extractFileName(Object data);
 	
-	protected abstract Object formatOutput(Object data);
+	protected abstract Object formatOutput(Object output);
 	
 	@Override
 	public Object evaluate(String id, Object data) {
@@ -37,8 +37,9 @@ public abstract class JavaScriptingEvaluator implements JavaEvaluatorInterface {
 		if (engine == null) { engine = manager.getEngineByMimeType(lang); }
 		if (engine == null) throw new IllegalArgumentException(id + ":" + lang + " is not supported.");
 		
-		Bindings vars = this.extractParameters(data);
-		engine.setBindings(vars, ScriptContext.ENGINE_SCOPE);
+		Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE); 
+		bindings.clear();
+		setParameters(bindings, data);
 		
 		String fileName = extractFileName(data);
 		Object toret = null;
@@ -49,7 +50,7 @@ public abstract class JavaScriptingEvaluator implements JavaEvaluatorInterface {
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException(id + ": Unable to find file " + fileName);
 		} catch (ScriptException e) {
-			throw new IllegalArgumentException(id + ": SCript is not valid " + fileName);
+			throw new IllegalArgumentException(id + ": Script is not valid " + fileName);
 		}
 		
 		return formatOutput(toret);

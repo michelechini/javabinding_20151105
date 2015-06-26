@@ -27,3 +27,8 @@ declare %unit:test function _:test-java-dummy-xml() {
     )
   )
 };
+
+declare %unit:test function _:test-javascript-dummy-integer() {
+  unit:assert(
+    jb:eval($_:EVALUATOR, "1", "com.dedalus.dss.javabinding.evaluators.DummyScriptingEvaluator", 1) = 1)
+};
