@@ -1,0 +1,19 @@
+<project name="DSS build" default="build">
+	
+	<property name="basex">/home/lettere/Desktop/basex</property>
+	<property name="deploylocation">${basex}/lib</property>
+	<property name="bx">${basex}/bin/basex</property>
+	
+	<target name="build">
+		<jar destfile="${deploylocation}/javabinding.jar" basedir="bin">
+			<exclude name="test/**"/>
+		</jar>
+	</target>
+
+	<target name="test">
+		<exec executable="${bx}">
+			<arg line="-t test/xquery/test.xq"/>
+		</exec>
+	</target>
+	
+</project>
